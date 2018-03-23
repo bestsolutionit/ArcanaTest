@@ -120,6 +120,7 @@ private:
   uint64_t m_blockFutureTimeLimit;
 
   uint64_t m_moneySupply;
+  uint64_t m_genesisSupply;
   unsigned int m_emissionSpeedFactor;
 
   size_t m_rewardBlocksWindow;
@@ -193,6 +194,7 @@ public:
   CurrencyBuilder& blockFutureTimeLimit(uint64_t val) { m_currency.m_blockFutureTimeLimit = val; return *this; }
 
   CurrencyBuilder& moneySupply(uint64_t val) { m_currency.m_moneySupply = val; return *this; }
+  CurrencyBuilder& genesisSupply(uint64_t val) { m_currency.m_genesisSupply = val; return *this; }
   CurrencyBuilder& emissionSpeedFactor(unsigned int val);
 
   CurrencyBuilder& rewardBlocksWindow(size_t val) { m_currency.m_rewardBlocksWindow = val; return *this; }
@@ -229,7 +231,7 @@ public:
   CurrencyBuilder& blockIndexesFileName(const std::string& val) { m_currency.m_blockIndexesFileName = val; return *this; }
   CurrencyBuilder& txPoolFileName(const std::string& val) { m_currency.m_txPoolFileName = val; return *this; }
   CurrencyBuilder& blockchinIndicesFileName(const std::string& val) { m_currency.m_blockchinIndicesFileName = val; return *this; }
-  
+
   CurrencyBuilder& testnet(bool val) { m_currency.m_testnet = val; return *this; }
 
 private:

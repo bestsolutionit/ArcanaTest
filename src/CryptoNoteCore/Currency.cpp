@@ -100,6 +100,11 @@ bool Currency::getBlockReward(size_t medianSize, size_t currentBlockSize, uint64
   uint64_t fee, uint64_t& reward, int64_t& emissionChange) const {
   assert(alreadyGeneratedCoins <= m_moneySupply);
   assert(m_emissionSpeedFactor > 0 && m_emissionSpeedFactor <= 8 * sizeof(uint64_t));
+  assert(m_genesisSupply <= m_moneySupply);
+  if (alreadyGeneratedCoins == 0) {
+    reward = m_genesisSupply;
+    return true;
+  }
 
   uint64_t baseReward = (m_moneySupply - alreadyGeneratedCoins) >> m_emissionSpeedFactor;
 
@@ -270,7 +275,7 @@ bool Currency::isAmountApplicableInFusionTransactionInput(uint64_t amount, uint6
   auto it = std::lower_bound(PRETTY_AMOUNTS.begin(), PRETTY_AMOUNTS.end(), amount);
   if (it == PRETTY_AMOUNTS.end() || amount != *it) {
     return false;
-  } 
+  }
 
   amountPowerOfTen = static_cast<uint8_t>(std::distance(PRETTY_AMOUNTS.begin(), it) / 9);
   return true;
@@ -441,6 +446,7 @@ CurrencyBuilder::CurrencyBuilder(Logging::ILogger& log) : m_currency(log) {
   blockFutureTimeLimit(parameters::CRYPTONOTE_BLOCK_FUTURE_TIME_LIMIT);
 
   moneySupply(parameters::MONEY_SUPPLY);
+  genesisSupply(parameters::GENESIS_BLOCK_REWARD);
   emissionSpeedFactor(parameters::EMISSION_SPEED_FACTOR);
 
   rewardBlocksWindow(parameters::CRYPTONOTE_REWARD_BLOCKS_WINDOW);
